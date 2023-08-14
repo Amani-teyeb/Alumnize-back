@@ -5,7 +5,7 @@ const shortid = require("shortid");
 
 const generateJwtToken = (_id, role) => {
   return jwt.sign({ _id, role }, process.env.JWT_SECRET, {
-    expiresIn: "5d",
+    expiresIn: "7d",
   });
 };
 
@@ -22,9 +22,11 @@ exports.signup = (req, res) => {
       email,
       password,
       contactNumber,
+      advance,
       role,
       level,
-      amount,
+      moy,
+      payMeth,
       parentName,
     } = req.body;
     const hash_password = await bcrypt.hash(password, 10);
@@ -33,12 +35,14 @@ exports.signup = (req, res) => {
       lastName,
       email,
       parentName,
+      moy,
+      advance,
       contactNumber,
       hash_password,
       userName: shortid.generate(),
       role,
       level,
-      amount,
+      payMeth,
     });
 
     _user.save((error, user) => {
@@ -56,10 +60,12 @@ exports.signup = (req, res) => {
           parentName,
           contactNumber,
           email,
+          advance,
           role,
+          moy,
           fullName,
           level,
-          amount,
+          payMeth,
         } = user;
         return res.status(201).json({
           user: {
@@ -68,11 +74,13 @@ exports.signup = (req, res) => {
             lastName,
             parentName,
             contactNumber,
+            advance,
             email,
             role,
+            moy,
             fullName,
             level,
-            amount,
+            payMeth,
           },
         });
       }
@@ -99,8 +107,10 @@ exports.signin = (req, res) => {
           email,
           role,
           fullName,
+          advance,
           level,
           amount,
+          moy,
         } = user;
         res.status(200).json({
           token,
@@ -110,9 +120,11 @@ exports.signin = (req, res) => {
             lastName,
             email,
             role,
+            advance,
             fullName,
             level,
             amount,
+            moy,
           },
         });
       } else {
@@ -146,8 +158,8 @@ exports.getTeachers = (req, res) => {
 };
 
 exports.editUser = async (req, res) => {
-  const { _id, firstName, lastName, level, amount } = req.body;
-  const user = { firstName, lastName, level, amount };
+  const { _id, firstName, lastName, level, payMeth } = req.body;
+  const user = { firstName, lastName, level, payMeth };
   const updatedUser = await User.findOneAndUpdate(_id, user, { new: true });
   if (updatedUser) {
     res.status(201).json({ message: "User Updated", updatedUser });

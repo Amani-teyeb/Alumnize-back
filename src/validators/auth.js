@@ -4,7 +4,6 @@ exports.validateSignupRequest = [
   check("firstName").notEmpty().withMessage("firstName is required"),
   check("lastName").notEmpty().withMessage("lastName is required"),
   check("contactNumber").notEmpty().withMessage("contactNumber is required"),
-  check("level").notEmpty().withMessage("level is required"),
   check("email").isEmail().withMessage("email should be unique"),
   check("password")
     .isLength({ min: 6 })

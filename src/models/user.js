@@ -19,7 +19,6 @@ const userSchema = new mongoose.Schema(
     },
     parentName: {
       type: String,
-      required: true,
       trim: true,
       min: 3,
       max: 20,
@@ -51,9 +50,12 @@ const userSchema = new mongoose.Schema(
     level: {
       type: String,
     },
-    amount: { type: Number },
-    contactNumber: { type: String },
+    payMeth: { type: String },
+    moy: { type: Number },
+    advance: { type: Number },
+    contactNumber: { type: Number },
     profilePicture: { type: String },
+    payPicture: { type: String },
     // favorites:{ type: Array, default: [] },
   },
   { timestamps: true }
